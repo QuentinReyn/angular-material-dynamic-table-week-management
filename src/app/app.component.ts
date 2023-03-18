@@ -2,16 +2,6 @@ import { ChangeDetectorRef, Component, OnInit, Optional } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { PersonActivityService } from 'src/services/person-activity.service';
-interface UserData {
-  name: string;
-  activities: Activity[];
-}
-
-interface Activity {
-  title: string;
-  value: number;
-  formControl?: any;
-}
 
 @Component({
   selector: 'app-root',
@@ -24,11 +14,11 @@ export class AppComponent implements OnInit {
     { title: 'dev', value: 0 },
     { title: 'reseau', value: 0 },
   ];
-  userData: UserData[] = [];
+  userData: Person[] = [];
   persons = ["John", "Jane", "Bob"];
   selectedNames = new FormControl([]);
   formGroup!: FormGroup;
-  dataSource = new MatTableDataSource<UserData>(this.userData);
+  dataSource = new MatTableDataSource<Person>(this.userData);
   firstTimeSelect = null;
   constructor(private personActivityService: PersonActivityService, private cdr: ChangeDetectorRef) { }
 
@@ -55,7 +45,7 @@ export class AppComponent implements OnInit {
   }
 
   setForm(selectedNames: string[]) {
-    this.formGroup.removeControl('userData');
+    this.formGroup.removeControl('persons');
     const userDataForm = new FormGroup({});
     this.userData.forEach((user) => {
       if (!selectedNames.includes(user.name)) {
@@ -68,7 +58,7 @@ export class AppComponent implements OnInit {
       userDataForm.addControl(user.name, userForm);
     });
   
-    this.formGroup.addControl('userData', userDataForm);
+    this.formGroup.addControl('persons', userDataForm);
     console.log(this.userData)
     this.dataSource.data = [...this.userData.filter(m=> selectedNames.includes(m.name))]
     this.cdr.detectChanges();
@@ -93,7 +83,8 @@ export class AppComponent implements OnInit {
   }
 
   updateForm(selectedNames: string[]) {
-    const userDataForm = this.formGroup.get('userData') as FormGroup;
+    console.log(this.formGroup)
+    const userDataForm = this.formGroup.get('persons') as FormGroup;
     if (!userDataForm) {
       return;
     }
@@ -120,8 +111,8 @@ export class AppComponent implements OnInit {
       }
     });
   }
-  getActivityControl(userData: UserData, activityTitle: string): FormControl {
-    const userDataForm = this.formGroup.get('userData') as FormGroup;
+  getActivityControl(userData: Person, activityTitle: string): FormControl {
+    const userDataForm = this.formGroup.get('persons') as FormGroup;
     return (userDataForm.get(userData.name)?.get(activityTitle) as FormControl);
   }
 
@@ -155,6 +146,14 @@ export class AppComponent implements OnInit {
   previousYear() {
     const newYearValue = this.formGroup.get('years').value - 1;
     this.formGroup.get('years').setValue(newYearValue);
+  }
+
+  saveData(){
+    this.personActivityService.saveUserData(this.formGroup).subscribe({
+      next:(data)=>{
+
+      }
+    })
   }
 
   get displayedColumns() {

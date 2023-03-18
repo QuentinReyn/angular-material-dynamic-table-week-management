@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup">
+<form [formGroup]="formGroup" (submit)="saveData()">
   <mat-form-field appearance="fill">
     <mat-label>Semaines</mat-label>
     <input matInput type="number" formControlName="weeks" min="1" max="52">
@@ -44,4 +44,5 @@
   <div *ngIf="formGroup.value">
     <pre>{{formGroup.value| json }}</pre>
   </div>
+  <button type="submit">submit</button>
 </form>

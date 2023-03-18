@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
 
 //Angular Material Components
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -38,15 +36,11 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 @NgModule({
   //component
   declarations: [
     AppComponent,
-    HomeComponent,
-    ToolbarComponent,
-    LoginComponent
   ],
   //module
   imports: [

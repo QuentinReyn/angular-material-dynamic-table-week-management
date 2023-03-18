@@ -1,4 +1,4 @@
-interface UserData {
+interface Person {
     name: string;
     activities: Activity[];
   }
