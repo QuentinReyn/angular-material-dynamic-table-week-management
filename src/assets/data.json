@@ -1,0 +1,116 @@
+[
+    {
+        "week": 52,
+        "year": 2023,
+        "data": [
+            {
+                "name": "John",
+                "activities": [
+                    {
+                        "title": "infra",
+                        "value": 52
+                    },
+                    {
+                        "title": "dev",
+                        "value": 52
+                    },
+                    {
+                        "title": "reseau",
+                        "value": 52
+                    }
+                ]
+            },
+            {
+                "name": "Jane",
+                "activities": [
+                    {
+                        "title": "infra",
+                        "value": 52
+                    },
+                    {
+                        "title": "dev",
+                        "value": 52
+                    },
+                    {
+                        "title": "reseau",
+                        "value": 52
+                    }
+                ]
+            },
+            {
+                "name": "Bob",
+                "activities": [
+                    {
+                        "title": "infra",
+                        "value": 10
+                    },
+                    {
+                        "title": "dev",
+                        "value": 15
+                    },
+                    {
+                        "title": "reseau",
+                        "value": 110
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "week": 51,
+        "year": 2023,
+        "data": [
+            {
+                "name": "John",
+                "activities": [
+                    {
+                        "title": "infra",
+                        "value": 51
+                    },
+                    {
+                        "title": "dev",
+                        "value": 51
+                    },
+                    {
+                        "title": "reseau",
+                        "value": 51
+                    }
+                ]
+            },
+            {
+                "name": "Jane",
+                "activities": [
+                    {
+                        "title": "infra",
+                        "value": 51
+                    },
+                    {
+                        "title": "dev",
+                        "value": 51
+                    },
+                    {
+                        "title": "reseau",
+                        "value": 51
+                    }
+                ]
+            },
+            {
+                "name": "Bob",
+                "activities": [
+                    {
+                        "title": "infra",
+                        "value": 51
+                    },
+                    {
+                        "title": "dev",
+                        "value": 51
+                    },
+                    {
+                        "title": "reseau",
+                        "value": 51
+                    }
+                ]
+            }
+        ]
+    }
+]

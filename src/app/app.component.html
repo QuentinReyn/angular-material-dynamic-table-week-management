@@ -1,0 +1,47 @@
+<form [formGroup]="formGroup">
+  <mat-form-field appearance="fill">
+    <mat-label>Semaines</mat-label>
+    <input matInput type="number" formControlName="weeks" min="1" max="52">
+    <button mat-button matPrefix (click)="previousWeek()"><mat-icon>keyboard_arrow_left</mat-icon></button>
+    <button mat-button matSuffix (click)="nextWeek()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+    <mat-error *ngIf="formGroup.controls['weeks'].hasError('min') || formGroup.controls['weeks'].hasError('max')">
+      Semaines doit être compris entre 1 et 52
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Années</mat-label>
+    <input matInput type="number" formControlName="years">
+    <button mat-button matPrefix (click)="previousYear()"><mat-icon>keyboard_arrow_left</mat-icon></button>
+  <button mat-button matSuffix (click)="nextYear()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+  </mat-form-field>
+  <mat-form-field>
+
+    <mat-select [formControl]="selectedNames" multiple placeholder="Select names">
+      <mat-option *ngFor="let user of persons" [value]="user">{{ user }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-table *ngIf="selectedNames.value.length > 0" [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let activity of activities" [matColumnDef]="activity.title">
+      <mat-header-cell *matHeaderCellDef>{{ activity.title }}</mat-header-cell>
+      <mat-cell *matCellDef="let user; let i = index">
+        <mat-form-field>
+          <input matInput type="number" [formControl]="getActivityControl(user, activity.title)" />
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <div *ngIf="formGroup.value">
+    <pre>{{formGroup.value| json }}</pre>
+  </div>
+</form>
