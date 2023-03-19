@@ -1,5 +1,5 @@
-interface Activity {
-    title: string;
-    value: number;
+export interface Activity {
+    Title: string;
+    Value?: number;
     formControl?: any;
   }

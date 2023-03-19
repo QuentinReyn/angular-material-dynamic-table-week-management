@@ -1,113 +1,113 @@
 [
     {
-        "week": 52,
-        "year": 2023,
+        "Week": 52,
+        "Year": 2023,
         "data": [
             {
-                "name": "John",
-                "activities": [
+                "Name": "John",
+                "PersonActivities": [
                     {
-                        "title": "infra",
-                        "value": 52
+                        "Title": "infra",
+                        "Value": 52
                     },
                     {
-                        "title": "dev",
-                        "value": 52
+                        "Title": "dev",
+                        "Value": 52
                     },
                     {
-                        "title": "reseau",
-                        "value": 52
+                        "Title": "reseau",
+                        "Value": 52
                     }
                 ]
             },
             {
-                "name": "Jane",
-                "activities": [
+                "Name": "Jane",
+                "PersonActivities": [
                     {
-                        "title": "infra",
-                        "value": 52
+                        "Title": "infra",
+                        "Value": 52
                     },
                     {
-                        "title": "dev",
-                        "value": 52
+                        "Title": "dev",
+                        "Value": 52
                     },
                     {
-                        "title": "reseau",
-                        "value": 52
+                        "Title": "reseau",
+                        "Value": 52
                     }
                 ]
             },
             {
-                "name": "Bob",
-                "activities": [
+                "Name": "Bob",
+                "PersonActivities": [
                     {
-                        "title": "infra",
-                        "value": 10
+                        "Title": "infra",
+                        "Value": 10
                     },
                     {
-                        "title": "dev",
-                        "value": 15
+                        "Title": "dev",
+                        "Value": 15
                     },
                     {
-                        "title": "reseau",
-                        "value": 110
+                        "Title": "reseau",
+                        "Value": 110
                     }
                 ]
             }
         ]
     },
     {
-        "week": 51,
-        "year": 2023,
+        "Week": 51,
+        "Year": 2023,
         "data": [
             {
-                "name": "John",
-                "activities": [
+                "Name": "John",
+                "PersonActivities": [
                     {
-                        "title": "infra",
-                        "value": 51
+                        "Title": "infra",
+                        "Value": 51
                     },
                     {
-                        "title": "dev",
-                        "value": 51
+                        "Title": "dev",
+                        "Value": 51
                     },
                     {
-                        "title": "reseau",
-                        "value": 51
+                        "Title": "reseau",
+                        "Value": 51
                     }
                 ]
             },
             {
-                "name": "Jane",
-                "activities": [
+                "Name": "Jane",
+                "PersonActivities": [
                     {
-                        "title": "infra",
-                        "value": 51
+                        "Title": "infra",
+                        "Value": 51
                     },
                     {
-                        "title": "dev",
-                        "value": 51
+                        "Title": "dev",
+                        "Value": 51
                     },
                     {
-                        "title": "reseau",
-                        "value": 51
+                        "Title": "reseau",
+                        "Value": 51
                     }
                 ]
             },
             {
-                "name": "Bob",
-                "activities": [
+                "Name": "Bob",
+                "PersonActivities": [
                     {
-                        "title": "infra",
-                        "value": 51
+                        "Title": "infra",
+                        "Value": 51
                     },
                     {
-                        "title": "dev",
-                        "value": 51
+                        "Title": "dev",
+                        "Value": 51
                     },
                     {
-                        "title": "reseau",
-                        "value": 51
+                        "Title": "reseau",
+                        "Value": 51
                     }
                 ]
             }

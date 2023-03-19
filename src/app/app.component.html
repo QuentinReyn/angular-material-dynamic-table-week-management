@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" (submit)="saveData()">
+<form [formGroup]="formGroup">
   <mat-form-field appearance="fill">
     <mat-label>Semaines</mat-label>
     <input matInput type="number" formControlName="weeks" min="1" max="52">
@@ -18,21 +18,21 @@
   <mat-form-field>
 
     <mat-select [formControl]="selectedNames" multiple placeholder="Select names">
-      <mat-option *ngFor="let user of persons" [value]="user">{{ user }}</mat-option>
+      <mat-option *ngFor="let user of persons" [value]="user.Name">{{ user.Name }}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-table *ngIf="selectedNames.value.length > 0" [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-      <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
+      <mat-cell *matCellDef="let user">{{ user.Name }}</mat-cell>
     </ng-container>
 
-    <ng-container *ngFor="let activity of activities" [matColumnDef]="activity.title">
-      <mat-header-cell *matHeaderCellDef>{{ activity.title }}</mat-header-cell>
+    <ng-container *ngFor="let activity of activities" [matColumnDef]="activity.Title">
+      <mat-header-cell *matHeaderCellDef>{{ activity.Title }}</mat-header-cell>
       <mat-cell *matCellDef="let user; let i = index">
         <mat-form-field>
-          <input matInput type="number" [formControl]="getActivityControl(user, activity.title)" />
+          <input matInput type="number" [formControl]="getActivityControl(user, activity.Title)" />
         </mat-form-field>
       </mat-cell>
     </ng-container>
@@ -44,5 +44,5 @@
   <div *ngIf="formGroup.value">
     <pre>{{formGroup.value| json }}</pre>
   </div>
-  <button type="submit">submit</button>
+  <button type="submit" (click)="saveData()">submit</button>
 </form>

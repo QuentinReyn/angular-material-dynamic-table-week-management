@@ -1,8 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Activity } from 'src/app/models/activity.model';
+import { Person } from 'src/app/models/person.model';
+import { PersonActivity } from 'src/app/models/personActivity.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,43 +13,19 @@ export class PersonActivityService {
 
   constructor(private http: HttpClient) { }
 
-  getData(week: number, year: number) {
-    return this.http.get('assets/data.json').pipe(
-      map((data: { week: number, year: number, data: Person[] }[]) => {
-        let tt = data.find(m => m.week == week && m.year == year)?.data;
-        if(!tt){
-          return [
-            {
-              name: 'John',
-              activities: [
-                { title: 'infra', value: 0 },
-                { title: 'dev', value: 0 },
-                { title: 'reseau', value: 0 }
-              ]
-            },
-            {
-              name: 'Jane',
-              activities: [
-                { title: 'infra', value: 0 },
-                { title: 'dev', value: 0 },
-                { title: 'reseau', value: 0 }
-              ]
-            },
-            {
-              name: 'Bob',
-              activities: [
-                { title: 'infra', value: 0},
-                { title: 'dev', value: 0 },
-                { title: 'reseau', value: 0 }
-              ]
-            }
-          ];
-        }
-        else{
-        return tt;
-        }
-      })
-    );
+  getData(week: number, year: number) : Observable<Person[]> {
+    let params = new HttpParams();
+    params = params.append('week',week.toString())
+    params = params.append('year',year.toString())
+    return this.http.get<Person[]>('http://localhost:61851/api/Persons',{params:params});
+  }
+
+  getActivities():Observable<Activity[]>{
+    return this.http.get<Activity[]>('http://localhost:61851/api/Persons/GetActivities');
+  }
+
+  getPersons() : Observable<Person[]>{
+    return this.http.get<Person[]>('http://localhost:61851/api/Persons/List');
   }
 
   saveUserData(formData: FormGroup) {
@@ -55,23 +34,24 @@ export class PersonActivityService {
     const userData = formData.value.persons;
     const persons: Person[] = [];
 
-    for (const name in userData) {
-      if (userData.hasOwnProperty(name)) {
-        const activities: Activity[] = [];
-        for (const title in userData[name]) {
-          if (userData[name].hasOwnProperty(title)) {
-            const value = userData[name][title];
-            const activity = { title, value };
-            activities.push(activity);
+    for (const Name in userData) {
+      if (userData.hasOwnProperty(Name)) {
+        const PersonActivities: PersonActivity[] = [];
+        for (const Title in userData[Name]) {
+          if (userData[Name].hasOwnProperty(Title)) {
+            const Value = userData[Name][Title];
+            const Activity = { Title };
+            const PersonActivity = { Value, Activity };
+            PersonActivities.push(PersonActivity);
           }
         }
-        const person = { name, activities };
+        const person = { Name, PersonActivities };
         persons.push(person);
       }
     }
 
     const data = { week: weeks, year: years, data: persons };
-    const url = 'http://example.com/api/persons';
+    const url = 'http://localhost:61851/api/Persons/UpdateOrCreatePersonActivities';
     const options = { headers: { 'Content-Type': 'application/json' } };
     return this.http.post(url, data, options);
   }
