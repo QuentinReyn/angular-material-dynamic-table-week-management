@@ -48,13 +48,13 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.getUserData();
   }
 
   getPersons(){
     this.personActivityService.getPersons().subscribe({
       next:(data:Person[])=>{
         this.persons = data;
+        this.getUserData();
       }
     })
   }
