@@ -37,6 +37,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // import the DayGrid plugin
+import timeGridPlugin from '@fullcalendar/timegrid'; // import the TimeGrid plugin
+
 @NgModule({
   //component
   declarations: [
@@ -44,6 +48,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   ],
   //module
   imports: [
+    FullCalendarModule,
     BrowserModule,
     AppRoutingModule,
     BrowserModule,

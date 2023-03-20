@@ -1,7 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, Optional } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import * as moment from 'moment';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid'; // import the TimeGrid plugin
 import { PersonActivityService } from 'src/services/person-activity.service';
 import { Activity } from './models/activity.model';
 import { Person } from './models/person.model';
@@ -16,6 +19,23 @@ export class AppComponent implements OnInit, AfterViewInit {
     { Title: 'dev', Value: 0 },
     { Title: 'reseau', Value: 0 },
   ];
+  calendarPlugins = [dayGridPlugin,timeGridPlugin];
+  calendarEvents: EventInput[] = [];
+  calendarOptions: CalendarOptions = {
+    plugins:this.calendarPlugins,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    weekends: false,
+    selectable: true,
+    selectMirror: true,
+    dayMaxEvents: true,
+    initialView: 'timeGridWeek',
+    events: [] // les événements seront ajoutés dynamiquement
+  };
+
   userData: Person[] = [];
   persons: Person[] = [];
   selectedNames = new FormControl([]);
@@ -42,13 +62,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.formGroup.get('weeks').valueChanges.subscribe((value) => {
       let month = moment().day("Monday").week(value).month();
-      this.formGroup.get('months').setValue(month+1,{emitEvent: false})
+      this.formGroup.get('months').setValue(month + 1, { emitEvent: false })
       this.getUserData();
     })
 
     this.formGroup.get('months').valueChanges.subscribe((value) => {
-      let week = moment(value+"/"+this.formGroup.get('years').value,"M/YYYY").week();
-      this.formGroup.get('weeks').setValue(week,{emitEvent: false})
+      let week = moment(value + "/" + this.formGroup.get('years').value, "M/YYYY").week();
+      this.formGroup.get('weeks').setValue(week, { emitEvent: false })
       this.getUserData();
     })
 
@@ -59,6 +79,29 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
   }
+
+
+  createEvents(persons: Person[]): EventInput[] {
+    const events: EventInput[] = [];
+
+    persons.forEach(person => {
+      person.PersonActivities.forEach(pa => {
+        const start = moment().year(pa.Year).week(pa.Week).startOf('week').add(person.Id, 'days');
+        const end = moment().year(pa.Year).week(pa.Week).endOf('week').add(person.Id, 'days');
+        const title = `${person.Name}: ${pa.Activity.Title} - ${pa.Value}`;
+        events.push({
+          id: pa.Id.toString(),
+          title: title,
+          start: start.toDate(),
+          end: end.toDate(),
+          backgroundColor: 'red'
+        });
+      });
+    });
+
+    return events;
+  }
+
 
   getPersons() {
     this.personActivityService.getPersons().subscribe({
@@ -110,6 +153,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
 
         this.setForm(this.selectedNames.value);
+        const events = this.createEvents(this.userData);
+        this.calendarOptions.events = events;
       }
     });
   }
@@ -152,7 +197,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   nextWeek() {
     const newWeekValue = this.formGroup.get('weeks').value + 1;
     if (newWeekValue > 52) {
-      this.formGroup.get('weeks').setValue(1,{emitEvent: false});
+      this.formGroup.get('weeks').setValue(1, { emitEvent: false });
       this.nextYear();
     }
     else {
@@ -176,11 +221,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     const newMonthValue = this.formGroup.get('months').value + 1;
     if (newMonthValue > 12) {
       this.formGroup.get('months').setValue(1);
-      this.formGroup.get('weeks').setValue(1,{emitEvent: false});
+      this.formGroup.get('weeks').setValue(1, { emitEvent: false });
       this.nextYear()
     }
-    else{
-      this.formGroup.get('weeks').setValue(moment(newMonthValue+"/"+this.formGroup.get('years').value,"M/YYYY").week(),{emitEvent: false})
+    else {
+      this.formGroup.get('weeks').setValue(moment(newMonthValue + "/" + this.formGroup.get('years').value, "M/YYYY").week(), { emitEvent: false })
       this.formGroup.get('months').setValue(newMonthValue);
     }
   }
@@ -189,11 +234,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     const newMonthValue = this.formGroup.get('months').value - 1;
     if (newMonthValue < 1) {
       this.formGroup.get('months').setValue(12);
-      this.formGroup.get('weeks').setValue(52,{emitEvent: false});
+      this.formGroup.get('weeks').setValue(52, { emitEvent: false });
       this.previousYear();
     }
-    else{
-      this.formGroup.get('weeks').setValue(moment(newMonthValue+"/"+this.formGroup.get('years').value,"M/YYYY").week(),{emitEvent: false})
+    else {
+      this.formGroup.get('weeks').setValue(moment(newMonthValue + "/" + this.formGroup.get('years').value, "M/YYYY").week(), { emitEvent: false })
       this.formGroup.get('months').setValue(newMonthValue);
     }
   }
