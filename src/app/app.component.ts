@@ -9,21 +9,21 @@ import { Person } from './models/person.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit,AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
   activities: Activity[] = [
     { Title: 'infra', Value: 0 },
     { Title: 'dev', Value: 0 },
     { Title: 'reseau', Value: 0 },
   ];
   userData: Person[] = [];
-  persons:Person[] = [];
+  persons: Person[] = [];
   selectedNames = new FormControl([]);
   formGroup!: FormGroup;
   dataSource = new MatTableDataSource<Person>(this.userData);
   firstTimeSelect = null;
   constructor(private personActivityService: PersonActivityService, private cdr: ChangeDetectorRef) { }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.formGroup = new FormGroup({
       weeks: new FormControl(52),
       years: new FormControl(2023)
@@ -38,11 +38,11 @@ export class AppComponent implements OnInit,AfterViewInit {
       this.updateForm(selectedNames);
     });
 
-    this.formGroup.get('weeks').valueChanges.subscribe((value)=>{
+    this.formGroup.get('weeks').valueChanges.subscribe((value) => {
       this.getUserData();
     })
 
-    this.formGroup.get('years').valueChanges.subscribe((value)=>{
+    this.formGroup.get('years').valueChanges.subscribe((value) => {
       this.getUserData();
     })
   }
@@ -50,18 +50,18 @@ export class AppComponent implements OnInit,AfterViewInit {
   ngAfterViewInit(): void {
   }
 
-  getPersons(){
+  getPersons() {
     this.personActivityService.getPersons().subscribe({
-      next:(data:Person[])=>{
+      next: (data: Person[]) => {
         this.persons = data;
         this.getUserData();
       }
     })
   }
 
-  getActivities(){
+  getActivities() {
     this.personActivityService.getActivities().subscribe({
-      next:(data:Activity[])=>{
+      next: (data: Activity[]) => {
         this.activities = data;
       }
     })
@@ -78,10 +78,11 @@ export class AppComponent implements OnInit,AfterViewInit {
       user.PersonActivities.forEach((personActivity) => {
         userForm.addControl(personActivity.Activity.Title, new FormControl(personActivity.Value));
       });
+      userForm.addControl("StatusId",new FormControl(user.StatusId.toString()))
       userDataForm.addControl(user.Name, userForm);
     });
     this.formGroup.addControl('persons', userDataForm);
-    this.dataSource.data = [...this.userData.filter(m=> selectedNames.includes(m.Name))]
+    this.dataSource.data = [...this.userData.filter(m => selectedNames.includes(m.Name))]
     this.cdr.detectChanges();
   }
 
@@ -89,15 +90,15 @@ export class AppComponent implements OnInit,AfterViewInit {
     const activeWeek = this.formGroup.get('weeks').value;
     const activeYear = this.formGroup.get('years').value;
     this.personActivityService.getData(activeWeek, activeYear).subscribe({
-      next: (data) => {   
+      next: (data) => {
         this.userData = data;
-        if(this.firstTimeSelect){        
-        this.selectedNames.setValue(data.filter(m=>this.selectedNames.value.includes(m.Name)).map(m=>m.Name));
+        if (this.firstTimeSelect) {
+          this.selectedNames.setValue(data.filter(m => this.selectedNames.value.includes(m.Name)).map(m => m.Name));
         }
-        else{
-          this.selectedNames.setValue(this.persons.map(m=>m.Name))
+        else {
+          this.selectedNames.setValue(this.persons.map(m => m.Name))
         }
-        
+
         this.setForm(this.selectedNames.value);
       }
     });
@@ -121,9 +122,10 @@ export class AppComponent implements OnInit,AfterViewInit {
           user.PersonActivities.forEach(personActivity => {
             userForm.addControl(personActivity.Activity.Title, new FormControl(personActivity.Value));
           });
+          userForm.addControl("StatusId",new FormControl(user.StatusId.toString()))
           userDataForm.addControl(user.Name, userForm);
         } else {
-          user.PersonActivities.forEach(personActivity  => {
+          user.PersonActivities.forEach(personActivity => {
             const control = userForm.get(personActivity.Activity.Title) as FormControl;
             control.setValue(personActivity.Value);
           });
@@ -131,6 +133,7 @@ export class AppComponent implements OnInit,AfterViewInit {
       }
     });
   }
+
   getActivityControl(userData: Person, activityTitle: string): FormControl {
     const userDataForm = this.formGroup.get('persons') as FormGroup;
     return (userDataForm.get(userData.Name)?.get(activityTitle) as FormControl);
@@ -168,9 +171,9 @@ export class AppComponent implements OnInit,AfterViewInit {
     this.formGroup.get('years').setValue(newYearValue);
   }
 
-  saveData(){
+  saveData() {
     this.personActivityService.saveUserData(this.formGroup).subscribe({
-      next:(data)=>{
+      next: (data) => {
 
       }
     })
@@ -178,7 +181,7 @@ export class AppComponent implements OnInit,AfterViewInit {
 
   get displayedColumns() {
     let displayedColumns = ['name'];
-    this.activities.forEach((activity)=>{
+    this.activities.forEach((activity) => {
       displayedColumns.push(activity.Title);
     })
     return displayedColumns;

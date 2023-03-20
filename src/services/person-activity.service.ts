@@ -32,20 +32,23 @@ export class PersonActivityService {
     const weeks = formData.value.weeks;
     const years = formData.value.years;
     const userData = formData.value.persons;
+    console.log(userData);
     const persons: Person[] = [];
 
     for (const Name in userData) {
+      let StatusId = 0;
       if (userData.hasOwnProperty(Name)) {
         const PersonActivities: PersonActivity[] = [];
         for (const Title in userData[Name]) {
           if (userData[Name].hasOwnProperty(Title)) {
             const Value = userData[Name][Title];
+            StatusId = parseInt(userData[Name]["StatusId"]);
             const Activity = { Title };
             const PersonActivity = { Value, Activity };
             PersonActivities.push(PersonActivity);
           }
         }
-        const person = { Name, PersonActivities };
+        const person = { Name, PersonActivities,StatusId };
         persons.push(person);
       }
     }
