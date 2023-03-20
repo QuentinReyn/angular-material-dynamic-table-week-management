@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, Optional } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import * as moment from 'moment';
 import { PersonActivityService } from 'src/services/person-activity.service';
 import { Activity } from './models/activity.model';
 import { Person } from './models/person.model';
@@ -25,8 +26,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      weeks: new FormControl(52),
-      years: new FormControl(2023)
+      weeks: new FormControl(parseInt(moment().format('w'))),
+      months: new FormControl(parseInt(moment().format('M'))),
+      years: new FormControl(parseInt(moment().format('y')))
     });
 
     this.getActivities();
@@ -39,6 +41,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.formGroup.get('weeks').valueChanges.subscribe((value) => {
+      let month = moment().day("Monday").week(value).month();
+      this.formGroup.get('months').setValue(month+1,{emitEvent: false})
+      this.getUserData();
+    })
+
+    this.formGroup.get('months').valueChanges.subscribe((value) => {
+      let week = moment(value+"/"+this.formGroup.get('years').value,"M/YYYY").week();
+      this.formGroup.get('weeks').setValue(week,{emitEvent: false})
       this.getUserData();
     })
 
@@ -78,7 +88,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       user.PersonActivities.forEach((personActivity) => {
         userForm.addControl(personActivity.Activity.Title, new FormControl(personActivity.Value));
       });
-      userForm.addControl("StatusId",new FormControl(user.StatusId.toString()))
+      userForm.addControl("StatusId", new FormControl(user.StatusId.toString()))
       userDataForm.addControl(user.Name, userForm);
     });
     this.formGroup.addControl('persons', userDataForm);
@@ -122,7 +132,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           user.PersonActivities.forEach(personActivity => {
             userForm.addControl(personActivity.Activity.Title, new FormControl(personActivity.Value));
           });
-          userForm.addControl("StatusId",new FormControl(user.StatusId.toString()))
+          userForm.addControl("StatusId", new FormControl(user.StatusId.toString()))
           userDataForm.addControl(user.Name, userForm);
         } else {
           user.PersonActivities.forEach(personActivity => {
@@ -142,8 +152,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   nextWeek() {
     const newWeekValue = this.formGroup.get('weeks').value + 1;
     if (newWeekValue > 52) {
+      this.formGroup.get('weeks').setValue(1,{emitEvent: false});
       this.nextYear();
-      this.formGroup.get('weeks').setValue(1);
     }
     else {
       this.formGroup.get('weeks').setValue(newWeekValue);
@@ -161,6 +171,34 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
+
+  nextMonth() {
+    const newMonthValue = this.formGroup.get('months').value + 1;
+    if (newMonthValue > 12) {
+      this.formGroup.get('months').setValue(1);
+      this.formGroup.get('weeks').setValue(1,{emitEvent: false});
+      this.nextYear()
+    }
+    else{
+      this.formGroup.get('weeks').setValue(moment(newMonthValue+"/"+this.formGroup.get('years').value,"M/YYYY").week(),{emitEvent: false})
+      this.formGroup.get('months').setValue(newMonthValue);
+    }
+  }
+
+  previousMonth() {
+    const newMonthValue = this.formGroup.get('months').value - 1;
+    if (newMonthValue < 1) {
+      this.formGroup.get('months').setValue(12);
+      this.formGroup.get('weeks').setValue(52,{emitEvent: false});
+      this.previousYear();
+    }
+    else{
+      this.formGroup.get('weeks').setValue(moment(newMonthValue+"/"+this.formGroup.get('years').value,"M/YYYY").week(),{emitEvent: false})
+      this.formGroup.get('months').setValue(newMonthValue);
+    }
+  }
+
+
   nextYear() {
     const newYearValue = this.formGroup.get('years').value + 1;
     this.formGroup.get('years').setValue(newYearValue);
@@ -176,8 +214,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.nextWeek();
       },
-      complete:()=>{
-        
+      complete: () => {
+
       }
     })
   }

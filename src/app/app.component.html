@@ -10,13 +10,24 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill">
+    <mat-label>Mois</mat-label>
+    <input matInput type="number" formControlName="months" min="1" max="12">
+    <button mat-button matPrefix (click)="previousMonth()"><mat-icon>keyboard_arrow_left</mat-icon></button>
+  <button mat-button matSuffix (click)="nextMonth()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+  <mat-error *ngIf="formGroup.controls['months'].hasError('min') || formGroup.controls['months'].hasError('max')">
+    Mois doit être compris entre 1 et 12
+  </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill">
     <mat-label>Années</mat-label>
     <input matInput type="number" formControlName="years">
     <button mat-button matPrefix (click)="previousYear()"><mat-icon>keyboard_arrow_left</mat-icon></button>
   <button mat-button matSuffix (click)="nextYear()"><mat-icon>keyboard_arrow_right</mat-icon></button>
   </mat-form-field>
-  <mat-form-field>
 
+  <mat-form-field>
     <mat-select [formControl]="selectedNames" multiple placeholder="Select names">
       <mat-option *ngFor="let user of persons" [value]="user.Name">{{ user.Name }}</mat-option>
     </mat-select>
