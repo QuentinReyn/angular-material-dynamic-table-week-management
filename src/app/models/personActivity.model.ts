@@ -10,4 +10,5 @@ export interface PersonActivity {
     Value?: number;
     Person?: Person
     Activity?: Activity
+    IsNew?:boolean;
 }

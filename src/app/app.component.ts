@@ -174,7 +174,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   saveData() {
     this.personActivityService.saveUserData(this.formGroup).subscribe({
       next: (data) => {
-
+        this.nextWeek();
+      },
+      complete:()=>{
+        
       }
     })
   }

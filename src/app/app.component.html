@@ -3,7 +3,7 @@
     <mat-label>Semaines</mat-label>
     <input matInput type="number" formControlName="weeks" min="1" max="52">
     <button mat-button matPrefix (click)="previousWeek()"><mat-icon>keyboard_arrow_left</mat-icon></button>
-    <button mat-button matSuffix (click)="nextWeek()"><mat-icon>keyboard_arrow_right</mat-icon></button>
+    <button mat-button matSuffix (click)="saveData()"><mat-icon>keyboard_arrow_right</mat-icon></button>
     <mat-error *ngIf="formGroup.controls['weeks'].hasError('min') || formGroup.controls['weeks'].hasError('max')">
       Semaines doit être compris entre 1 et 52
     </mat-error>
