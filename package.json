@@ -25,7 +25,10 @@
     "@fullcalendar/core": "^6.1.4",
     "@fullcalendar/daygrid": "^6.1.4",
     "@fullcalendar/timegrid": "^6.1.4",
+    "apexcharts": "^3.37.2",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "ng-apexcharts": "^1.7.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.8"

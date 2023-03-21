@@ -7,5 +7,6 @@ export interface Person {
     Name: string;
     StatusId:number;
     Status?:ListValue;
+    GenderId?:number;
     PersonActivities: PersonActivity[];
   }

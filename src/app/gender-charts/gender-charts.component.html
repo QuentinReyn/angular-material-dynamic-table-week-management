@@ -1,0 +1,110 @@
+<div [formGroup]="weekRangeFormGroup">
+    <mat-form-field>
+        <mat-label>Periode</mat-label>
+        <mat-select [formControl]="periodType">
+            <mat-option value="week">Semaine</mat-option>
+            <mat-option value="month">Mois</mat-option>
+            <mat-option value="year">Année</mat-option>
+            <mat-option value="range">Plage de dates</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div *ngIf="periodType.value === 'week'">
+        <mat-form-field>
+            <mat-label>Sélectionner une plage de semaines</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="Semaine de début" [(ngModel)]="startWeek">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+              (monthSelected)="chosenMonthHandler($event)" panelClass="week-picker">
+            </mat-datepicker>
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker2" placeholder="Semaine de fin" [(ngModel)]="endWeek">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+              (monthSelected)="chosenMonthHandler($event)" panelClass="week-picker">
+            </mat-datepicker>
+          </mat-form-field>
+          <button type="button" (click)="submit()">submit</button>
+        <mat-form-field>
+            <input matInput [matDatepicker]="yearPicker" placeholder="Année">
+            <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+            <mat-datepicker #yearPicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div *ngIf="periodType.value === 'month'">
+        <mat-form-field>
+            <input matInput [matDatepicker]="monthPicker" placeholder="Mois">
+            <mat-datepicker-toggle matSuffix [for]="monthPicker"></mat-datepicker-toggle>
+            <mat-datepicker #monthPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [matDatepicker]="yearPicker" placeholder="Année">
+            <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+            <mat-datepicker #yearPicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div *ngIf="periodType.value === 'year'">
+        <mat-form-field>
+            <input matInput [matDatepicker]="yearPicker" placeholder="Année">
+            <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+            <mat-datepicker #yearPicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div *ngIf="periodType.value === 'range'">
+        <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate matInput [formControl]="startDateControl" placeholder="Start date">
+              <input matEndDate matInput [formControl]="endDateControl" (dateChange)="onEndDateSelected()" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field> 
+    </div>
+    <div id="chart">
+        <apx-chart 
+          [series]="series"
+          [chart]="chartOptions.chart"
+          [colors]="chartOptions.colors"
+          [legend]="chartOptions.legend"
+          [responsive]="chartOptions.responsive"
+          [labels]="chartOptions.labels"
+          #chartComponent>
+        </apx-chart>
+      </div>
+
+      <div id="chart">
+        <apx-chart 
+          [series]="series1"
+          [chart]="chartOptions.chart"
+          [colors]="chartOptions.colors"
+          [legend]="chartOptions1.legend"
+          [responsive]="chartOptions.responsive"
+          [labels]="chartOptions1.labels"
+          #chartComponent1>
+        </apx-chart>
+      </div>
+
+      <div id="chart">
+        <apx-chart 
+          [series]="series2"
+          [chart]="chartOptions.chart"
+          [colors]="chartOptions.colors"
+          [legend]="chartOptions2.legend"
+          [responsive]="chartOptions.responsive"
+          [labels]="chartOptions2.labels"
+          #chartComponent2>
+        </apx-chart>
+      </div>
+
+      <div id="chart">
+        <apx-chart 
+          [series]="series2"
+          [chart]="chartOptions3.chart"
+          [xaxis]="chartOptions3.xaxis"
+          [responsive]="chartOptions.responsive"
+          #chartComponent3>
+        </apx-chart>
+      </div>
+</div>

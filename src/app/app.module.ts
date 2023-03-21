@@ -39,16 +39,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // import the DayGrid plugin
-import timeGridPlugin from '@fullcalendar/timegrid'; // import the TimeGrid plugin
+import timeGridPlugin from '@fullcalendar/timegrid';
+import { GenderChartsComponent } from './gender-charts/gender-charts.component'; // import the TimeGrid plugin
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   //component
   declarations: [
     AppComponent,
+    GenderChartsComponent,
   ],
   //module
   imports: [
-    FullCalendarModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     BrowserModule,
     AppRoutingModule,
     BrowserModule,
@@ -83,7 +89,8 @@ import timeGridPlugin from '@fullcalendar/timegrid'; // import the TimeGrid plug
     MatSortModule,
     MatPaginatorModule,
     HttpClientModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+    NgApexchartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

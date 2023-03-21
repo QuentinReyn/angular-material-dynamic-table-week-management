@@ -13,18 +13,27 @@ export class PersonActivityService {
 
   constructor(private http: HttpClient) { }
 
-  getData(week: number, year: number) : Observable<Person[]> {
+  getData(week: number, year: number): Observable<Person[]> {
     let params = new HttpParams();
-    params = params.append('week',week.toString())
-    params = params.append('year',year.toString())
-    return this.http.get<Person[]>('http://localhost:61851/api/Persons',{params:params});
+    params = params.append('week', week.toString())
+    params = params.append('year', year.toString())
+    return this.http.get<Person[]>('http://localhost:61851/api/Persons', { params: params });
   }
 
-  getActivities():Observable<Activity[]>{
+  getDataByDate(weekStart: number, weekEnd: number, yearStart: number, yearEnd: number): Observable<Person[]> {
+    let params = new HttpParams();
+    params = params.append('weekStart', weekStart.toString())
+    params = params.append('weekEnd', weekEnd.toString())
+    params = params.append('yearEnd', yearEnd.toString())
+    params = params.append('yearStart', yearStart.toString())
+
+    return this.http.get<Person[]>('http://localhost:61851/api/Persons/GetByDate', { params: params });
+  }
+  getActivities(): Observable<Activity[]> {
     return this.http.get<Activity[]>('http://localhost:61851/api/Persons/GetActivities');
   }
 
-  getPersons() : Observable<Person[]>{
+  getPersons(): Observable<Person[]> {
     return this.http.get<Person[]>('http://localhost:61851/api/Persons/List');
   }
 
@@ -48,7 +57,7 @@ export class PersonActivityService {
             PersonActivities.push(PersonActivity);
           }
         }
-        const person = { Name, PersonActivities,StatusId };
+        const person = { Name, PersonActivities, StatusId };
         persons.push(person);
       }
     }

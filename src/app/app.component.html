@@ -52,10 +52,8 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <div *ngIf="formGroup.value">
-    <pre>{{formGroup.value| json }}</pre>
-  </div>
+  <a routerLink="gender-chart">Chart gender</a>
   <button type="submit" (click)="saveData()">submit</button>
 </form>
-
-<full-calendar #calendar [options]="calendarOptions"></full-calendar>
+<router-outlet></router-outlet>
+<!-- <full-calendar #calendar [options]="calendarOptions"></full-calendar> -->
