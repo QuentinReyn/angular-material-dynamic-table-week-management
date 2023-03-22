@@ -137,7 +137,52 @@ export class GenderChartsComponent implements OnInit {
   series1 = [];
   series2 = [];
   series = [0, 0];
+  data = [
+    {
+      name: "activité 1",
+      data: [
+        { x: "11-23", y: 11.3 },
+        { x: "12-23", y: 12.3 },
+        { x: "13-23", y: 13.3 },
+      ]
+    },
+    {
+      name: "activité 2",
+      data: [
+        { x: "11-23", y: 1.6 },
+        { x: "12-23", y: 9.3 },
+        { x: "13-23", y: 6.3 },
+      ]
+    }
+  ];
 
+  chartOptions4 = {
+    series: [
+      {
+        name: 'activite 1',
+        data: [
+          { x: '11-23', y: 11.3 },
+          { x: '12-23', y: 12.3 },
+          { x: '13-23', y: 13.3 },
+        ]
+      },
+      {
+        name: 'activite 2',
+        data: [
+          { x: '11-23', y: 1.6 },
+          { x: '12-23', y: 9.3 },
+          { x: '13-23', y: 6.3 },
+        ]
+      }
+    ],
+    chart: {
+      height: 350,
+      type: "line",
+      zoom:{
+        enabled:false
+      }
+    }
+  };
 
   ngOnInit(): void {
     this.weekRangeFormGroup = new FormGroup({
@@ -204,6 +249,25 @@ export class GenderChartsComponent implements OnInit {
       }
     });
   }
+
+  // initData() {
+  //   const series1 = [];
+  //   const series2 = [];
+ 
+  //   this.data = [series1, series2];
+ 
+  //   for (const item of data) {
+  //     if (item.name === 'activité 1') {
+  //       for (const dataItem of item.data) {
+  //         series1.push({ x: new Date(dataItem.x), y: dataItem.y });
+  //       }
+  //     } else if (item.name === 'activité 2') {
+  //       for (const dataItem of item.data) {
+  //         series2.push({ x: new Date(dataItem.x), y: dataItem.y });
+  //       }
+  //     }
+  //   }
+  // }
 
   groupActivitiesByWeekYear(): Map<string, PersonActivity[]> {
     const activityMap = new Map<string, PersonActivity[]>();
